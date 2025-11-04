@@ -1,10 +1,11 @@
 ![Banner](READMEbanner.jpg)
 
-# Need a light, customizable and easy-to-use table component to display data in your React app? Look no further!
+# Custom React Table
 
-This 18kb React component allows you to display complex data into a clean table, complete with pagination, a search system and sorting by each category. Let's see how it works!
+Need a light, customizable, and easy-to-use table component to display data in your React app? Look no further!  
+This ~18kb React component allows you to display complex data in a clean, accessible table, complete with pagination, a search system, and sorting by each category. Let’s dive right in!
 
-![Table screenshot](https://github.com/chloeadriancreates/custom-react-table/blob/main/screenshot.png?raw=true)
+![Table screenshot](https://github.com/chloeadriandev/custom-react-table/blob/main/screenshot.png?raw=true)
 
 ## Prerequisites
 - [NodeJS (version 16.17.0)](https://nodejs.org/en/)
@@ -15,55 +16,92 @@ This 18kb React component allows you to display complex data into a clean table,
 
 ### Installation
     npm install @chloeadriancreates/custom-react-table
-   
+
 ### Usage
+    import { useState } from "react";
     import { Table } from "@chloeadriancreates/custom-react-table";
-    
+
     const YourComponent = () => {
-      const [content, setContent] = useState([{
-	      animal: "manatee",
-	      color: "turquoise"
-	      food: "pizza"
-      }, {
-	      animal: "deer",
-	      color: "lavender"
-	      food: "sushi"
-      }]);
+      const [content, setContent] = useState([
+        {
+          animal: "manatee",
+          color: "turquoise",
+          food: "pizza"
+        },
+        {
+          animal: "deer",
+          color: "lavender",
+          food: "sushi"
+        }
+      ]);
+
       return <Table content={content} />;
     };
 
-## Further customization
-The only required prop for the table to run is `content`, which is an array of objects, as you can see in the demonstration in [Getting started](./#getting-started). There are, however, a few options for further customization.
+The only required prop is `content`, which takes an array of objects, with each object representing a table row and each key a column.
 
-### Colors
-A color theme is calculated based on one main color, which is by default a medium warm grey. You can customize it to fit your app's design system, by passing a hex code (either 3 or 6 characters) to the `color` prop. For fonts, setting the `font-family` of the parent component you're using the table in suffices, as it uses `inherit`.
+---
+
+## Further customization
+The `Table` component offers several options to make it fit seamlessly into your app’s design and data structure.
+
+### 🎨 Colors
+A color theme is calculated based on one main color, which by default is a medium warm grey.  
+
+You can easily customize it to fit your app’s design system by passing a hex code (3 or 6 characters) to the `color` prop.
+
+The font inherits from the parent component, so you can simply set the `font-family` where you use the table.
 
     <Table content={content} color="#577399" />
-  
-### Date format
-The `Table` component automatically detects dates (passed as ISO strings), and formats them by default in "DD/MM/YYYY" using [Day.js](https://day.js.org/en/). You can use any other valid Day.js [parsing token](https://day.js.org/docs/en/parse/string-format) by passing it to the `dateFormat` prop.
+
+---
+
+### 📅 Date format
+The `Table` component automatically detects ISO date strings and formats them with [Day.js](https://day.js.org/en/).  
+
+By default, the format is `"DD/MM/YYYY"`, but you can customize it by passing any valid [Day.js format token](https://day.js.org/docs/en/parse/string-format) to the `dateFormat` prop.
 
     <Table content={content} dateFormat="MM/DD/YY" />
-    
-### Object flattening
-If a row of your table (symbolized by each object in your content array) contains another object, you can choose to flatten it by choosing which property to display. For example, if a row were to look like this: 
+
+---
+
+### 🧩 Object flattening
+If a row in your table (each object in `content`) contains another object, you can choose which nested property to display.
+
+For example: 
 
     {
-	    color: "purple",
-    	animals": { 
-    		pastFavorite: "unicorn", 
-    		currentFavorite: "panda" 
-    	}
+      color: "purple",
+      animals: { 
+        pastFavorite: "unicorn", 
+        currentFavorite: "panda" 
+      }
     }
 
-You would have to pass either `{ animals: "pastFavorite" }` or  `{ animals: "currentFavorite" }` to the `objectKey` prop, to decide whether to display "unicorn" or "panda". The `objectKey` object can have as many properties as your content has properties that are objects. However, this is as deep as it goes: further sub-objects will not work with this table.
+You can tell the table which property to show by using the `objectKey` prop:
 
-    <Table content={content} objectKey={ animals: "pastFavorite" } />
-    
+    <Table content={content} objectKey={{ animals: "pastFavorite" }} />
+
+The `objectKey` object can contain as many properties as your `content` includes.  
+However, this is **only one level deep**: further nested objects or arrays are not supported yet.
+
+---
+
+## Accessibility
+The component is built with accessibility in mind:
+- Semantic HTML table structure
+- Keyboard navigation for pagination and sorting
+- Visible focus states based on your color theme
+- ARIA attributes (`aria-sort`) for screen readers
+
+---
+
 ## Future updates
-These are things that may limit your usage of this component at the moment, but I am aware of and working on! Currently:
-- Row objects can't contain arrays.
-- The Table component only has a desktop version.
+These are some planned improvements:
+- Support for arrays inside row objects
+- Responsive/mobile layout
 
-## Thanks for reading, and happy coding!  
-Chloé Adrian
+---
+
+Thanks for reading, and happy coding!  
+Chloé Adrian ✨
